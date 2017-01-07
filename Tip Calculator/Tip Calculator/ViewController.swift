@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var currencyControl: UISegmentedControl!
     @IBOutlet weak var tipLabelField: UITextField!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var billField: UITextField!
@@ -30,7 +31,11 @@ class ViewController: UIViewController {
             view.endEditing(true)
         }
     }
+    
     @IBAction func calculateTip(_ sender: Any){
+        let currencyControlArray = ["es_CL", "es_ES", "kn_IN"]
+        let locale = Locale(identifier: currencyControlArray[currencyControl.selectedSegmentIndex])
+        let currencySymbol = locale.currencySymbol
         let percentControlArray = [0, 0.1, 0.15, 0.2]
         if tipPercentControl.selectedSegmentIndex == 4 && tipLabelField.text == ""{
             return
@@ -39,23 +44,31 @@ class ViewController: UIViewController {
         
         var tipAmount = 0.0
         if (tipPercentControl.selectedSegmentIndex == 4){
-            if tipLabelField.text!.contains("$"){                tipLabelField.text!.remove(at:tipLabelField.text!.startIndex)
+            if tipLabelField.text!.contains(currencySymbol!){
+                tipLabelField.text!.remove(at:tipLabelField.text!.startIndex)
             }
             tipAmount = Double(tipLabelField.text!) ?? 0;
         } else {
             tipAmount = billAmount * percentControlArray[tipPercentControl.selectedSegmentIndex]
-            tipLabelField.text = String(format:"$%.2f", tipAmount)
+            tipLabelField.text = String(format:currencySymbol!+"%.2f", tipAmount)
         }
         let totalAmount = tipAmount + billAmount
-        totalLabel.text = String(format:"$%.2f", totalAmount)
+        totalLabel.text = String(format:currencySymbol!+"%.2f", totalAmount)
     }
     
+
+    @IBAction func currencyChanged(_ sender: Any) {
+        calculateTip(Any.self)
+    }
+
+    
     @IBAction func tipChanged(_ sender: Any) {
-        
         calculateTip(Any.self)
     }
     @IBAction func customTipCalculate(_ sender: Any) {
         calculateTip(Any.self)
     }
 }
+
+
 
