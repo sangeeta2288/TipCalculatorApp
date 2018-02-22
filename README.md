@@ -5,7 +5,7 @@ Code repository for TipCalculator Codepath IOS app
 
 Tip Calculator is a tip calculator application for iOS.
 
-Submitted by: Sangeeta Ashrit
+Submitted by: Sangeeta Ashrit..
 
 Time spent: 7 hours spent in total
 
